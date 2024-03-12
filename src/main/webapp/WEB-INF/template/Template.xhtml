@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />		
+		<h:outputStylesheet library="css" name="styles.css" />
+		<h:outputScript library="js" name="index.js" />	
+		
+		<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
+		<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
+
+		<title><ui:insert name="title">Title Default</ui:insert></title>
+	</h:head>
+	
+	<h:body>
+		
+		<!-- Header -->
+		<header>
+			<div style="display: flex; justify-content: space-between; background: #94c9c9">
+				<div style="float:left; margin-left:10px; width: 50%; display: flex; align-items: center;">			
+					<h1 style="color: #ffffff !important">Curso Java JSF com Primefaces</h1>
+				</div>
+							
+				<div style="float:right;">			
+					<a href="https://www.primefaces.org/showcase-v8/index.xhtml" target="_blank">
+						<h:graphicImage library="imagens" name="primefaces-logo.png" width="200" style="margin: 10px;"/>
+					</a>
+				</div>
+				
+				<div style="display: flex; align-items: center; margin-right: 1%">
+					<span title="Menu" onclick="PF('sidebar2').show()" style="color: #fff; font-size: 25px; cursor: pointer">
+						<i class="fa fa-fw fa-bars" ></i>
+					</span>
+				</div>
+				
+			</div>
+		
+			<p:confirmDialog global="true">
+				<p:commandButton value="SIM" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" style="font-weight: 400;
+    				text-align: center;white-space: nowrap; color: #fff !important; background-color: #28a745 !important; border-color: #28a745 !important;"/>
+				<p:commandButton value="NÃO" styleClass="ui-confirmdialog-no" icon="ui-icon-close" style="font-weight: 400;
+    				text-align: center;white-space: nowrap; color: #fff !important; background-color: #c82333 !important; border-color: #bd2130 !important;"/>
+			</p:confirmDialog>
+		</header>
+		<!-- Header -->
+		
+		<div style="margin: 20px;">
+			<ui:insert name="body"/>
+		</div>
+		
+		<!-- Sidebar -->
+		<sidebar>
+			<p:sidebar widgetVar="sidebar2" position="right" baseZIndex="10000" style="background: #94c9c9">
+			    <h1 style="font-weight:normal">Menu</h1>
+			    		    	
+		    	<div class="ui-grid ui-grid-responsive" style="margin-right: 2%; margin-top: 2%; font-size: 25px; color: #000">
+			    	<div class="ui-grid-row" style="display: block;">
+				        <div class="ui-grid-col-12">
+				        	<a href="http://localhost:8080/empresa/home" class="side-bar-link">
+				        		<i class="fa fa-fw fa-home"></i>
+				        		<storng>Home</storng>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-12">
+				        	<a href="http://localhost:8080/empresa/ramoAtividade" class="side-bar-link">
+				        		<i class="fa fa-fw fa-question-circle"></i>
+				        		<storng>Ramo Atividade</storng>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-12">
+				        	<a href="http://localhost:8080/empresa/funcionario" class="side-bar-link">
+				        		<i class="fa fa-fw fa-user"></i>
+				        		<storng>Funcionario</storng>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-12">
+				        	<a href="http://localhost:8080/empresa/CorreiosSoap.xhtml" class="side-bar-link">
+				        		<i class="fa fa-fw fa-envelope"></i>
+				        		<storng>Correios</storng>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-12">
+				        	<a href="http://localhost:8080/empresa/ajuda" class="side-bar-link">
+				        		<i class="fa fa-fw fa-question-circle"></i>
+				        		<storng>Help</storng>
+				        	</a>
+				        </div>
+				        
+				    </div>
+				</div>
+			</p:sidebar>
+
+		</sidebar>
+		<!-- Sidebar -->
+		
+		<!-- Footer -->	
+		<footer style="display: flex; bottom: 0; position: fixed; width: 100%; height: 70px; background: #94c9c9">
+			
+			<div style="display: flex; align-items: center; justify-content: space-between; width: 100%">
+				<h2 style="margin-left: 2%">Java JSF with Primefaces 2024 <i class="fa fa-fw fa-copyright"></i></h2>
+	
+				<!-- https://www.primefaces.org/showcase-v8/ui/misc/fa.xhtml -->
+				<div class="ui-grid ui-grid-responsive" style="margin-right: 2%; font-size: 25px; color: #fff">
+				    <div class="ui-grid-row">
+				        <div class="ui-grid-col-3">
+				        	<a href="https://www.facebook.com/profile.php?id=100001752603708" target="_blank" style="color: #fff">
+				        		<i class="fa fa-fw fa-facebook-square"></i>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-3">
+				        	<a href="https://wa.me//5512981178648" target="_blank" style="color: #fff">
+				        		<i class="fa fa-fw fa-whatsapp"></i>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-3">
+				        	<a href="https://www.instagram.com/link_viana/" target="_blank" style="color: #fff">
+				        		<i class="fa fa-fw fa-instagram"></i>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-3">
+				        	<a href="https://www.linkedin.com/in/lincon-viana-092a7790/" target="_blank" style="color: #fff">
+				        		<i class="fa fa-fw fa-linkedin-square"></i>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-3">
+				        	<a href="https://github.com/linconviana" target="_blank" style="color: #fff">
+				        		<i class="fa fa-fw fa-github"></i>
+				        	</a>
+				        </div>
+				        <div class="ui-grid-col-3">
+				        	<a href="https://www.youtube.com/channel/UCUJqY7s9wlgRwQx5BJS7dvA" target="_blank" style="color: #fff">
+				        		<i class="fa fa-fw fa-youtube-square"></i>
+				        	</a>
+				        </div>
+				    </div>
+	    		</div>
+	    		
+			</div>
+		</footer>
+		<!-- Footer -->
+	</h:body>
+</html>

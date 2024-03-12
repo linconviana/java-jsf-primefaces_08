@@ -1,0 +1,118 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="title">Java JSF com Primefaces - Ramo Atividade</ui:define>
+	
+	<ui:define name="body">
+
+		<h2>Cadastro de Ramo Atividade</h2>
+		
+		<h:form id="form">
+			
+			<!-- area para visualizar as menssages -->
+			<p:messages id="messagesTabela" showDetail="true" closable="true">
+		        <p:autoUpdate disabled="true"/>
+		    </p:messages>
+			  
+			<!-- Menu toolbar -->
+			<p:toolbar id="toolbar">
+	            <p:toolbarGroup>
+	            	<p:inputText id="inputTermo" placeholder="Digite o termo para pesquisar..." size="30" value="#{ramoAtividadeMB.termoPesquisa}"/>
+	                <p:commandButton value="Pesquisar" icon="fa fa-search" styleClass="mr-2" 
+	                	actionListener="#{ramoAtividadeMB.pesquisar}"                	
+	                	update="dataTable" 
+	                	process="@this inputTermo messagesTabela"
+	                />
+	                		
+	                <i class="pi pi-bars px-2"/>
+	                <p:commandButton style="color: #007bff; border-color: #007bff;" type="button" value="Nova" icon="fa fa-plus" styleClass="mr-2"
+	                	onclick="PF('dialogWidgetVar').show()"
+	                	process="@this"
+	                >
+	                	<p:resetInput target="dialog" />
+	                	<p:ajax event="click" listener="#{ramoAtividadeMB.changeTitleButton('SAVE')}"/> 
+	                </p:commandButton>
+                
+	            </p:toolbarGroup>
+			</p:toolbar>
+			
+			<p:spacer height="20"/>
+			
+			<!-- Datatable -->
+			<p:dataTable id="dataTable" value="#{ramoAtividadeMB.listaRamoAtividades}" var="atividade" 
+				emptyMessage="Nenhuma registro encontrado!"
+				paginator="true" rows="15" paginatorPosition="bottom"		
+			>
+				
+				<p:column headerText="Descrição" sortBy="#{atividade.descricao}">
+					<h:outputText value="#{atividade.descricao}" />
+				</p:column>
+	
+				<p:column headerText="Ações" width="100">
+					<div class="btn-action-table">
+						<p:commandButton class="btn-warning" title="Editar" icon="ui-icon-pencil"
+							oncomplete="PF('dialogWidgetVar').show()"
+							 update="form:dialog" process="@this" 
+							action="#{ramoAtividadeMB.changeTitleButton('UPDATE')}"
+						>
+							<f:setPropertyActionListener value="#{atividade}" target="#{ramoAtividadeMB.ramoAtividade}" />
+						</p:commandButton>
+						
+						<p:commandButton class="btn-danger" title="Excluir" action="#{ramoAtividadeMB.excluir}" icon="ui-icon-trash" 
+							update="dataTable" process="@this" 
+						>
+							<p:confirm icon="ui-icon-alert" header="Confirmação" message="Tem certeza que deseja excluir este registro?"/>
+							<f:setPropertyActionListener value="#{atividade}" target="#{ramoAtividadeMB.ramoAtividade}" />
+						</p:commandButton>
+					</div>
+				</p:column>	
+				
+			</p:dataTable>
+
+			<p:dialog id="dialog" header="#{ramoAtividadeMB.tipoCadastro eq 'SAVE' ? 'Cadastrar' : 'Atualizar'}" 
+				widgetVar="dialogWidgetVar" resizable="false" modal="true" closeOnEscape="true" showEffect="clip" hideEffect="clip">
+			
+				<!-- area para visualizar as menssages -->
+				<p:messages id="messagesModal"  closable="true" >
+			        <p:autoUpdate disabled="true"/>
+			    </p:messages>
+			
+				<h:panelGrid columns="2" id="painelGrid" rendered="#{ramoAtividadeMB.ramoAtividade ne null}">
+					<p:outputLabel value="Descrição:" for="descricao"/>
+					<p:inputText size="50" id="descricao" value="#{ramoAtividadeMB.ramoAtividade.descricao}" />
+				</h:panelGrid>
+				
+				<p:outputLabel />
+				<p:commandButton class="btn btn-primary" id="btn-salvar" value="Salvar" action="#{ramoAtividadeMB.salvar}" 
+					update="painelGrid messagesModal" 
+					oncomplete="if(!args.validationFailed) PF('dialogWidgetVar').hide()"
+					process="@this painelGrid"
+					rendered="#{ramoAtividadeMB.tipoCadastro eq 'SAVE'}"
+				/>
+				
+				<p:commandButton class="btn btn-warning" id="btn-atualizar" value="Atualizar" action="#{ramoAtividadeMB.salvar}" 
+					update="painelGrid messagesModal" 
+					oncomplete="if(!args.validationFailed) PF('dialogWidgetVar').hide()"
+					process="@this painelGrid"
+					rendered="#{ramoAtividadeMB.tipoCadastro eq 'UPDATE'}"
+				>
+				 <p:confirm header="Confirmação" message="Tem certeza que deseja cadastrar este registro?"/>
+				</p:commandButton>
+				
+				<!-- Resetar dados do formulario apos fechar -->
+				<p:ajax event="close" update="dialog" resetValues="true"/>
+				
+				<!-- Definir comando default para apertar enter no formulario e somente o formulario responder a este comando -->
+				<p:defaultCommand target="btn-salvar" scope="dialog"/>
+				<p:defaultCommand target="btn-atualizar" scope="dialog"/>
+				
+			 </p:dialog>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,100 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="title">Java JSF com Primefaces - Home</ui:define>
+	
+	<ui:define name="body">
+	
+	<!-- http://localhost:8080/empresa/Home.xhtml 
+		 http://localhost:8080/empresa/home
+	-->
+	
+		<div id="conteudo">
+			<h:form id="form">
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Razão Social:" for="razaoSocial"/>
+					<h:panelGroup>
+						<p:inputText size="50" id="razaoSocial" value="#{empresaMB.empresa.razaoSocial}" required="true"/>
+						
+						<p:message for="razaoSocial" />
+					</h:panelGroup>
+					
+					<p:outputLabel value="Nome Fantasia:" for="nomeFantasia"/>
+					<h:panelGroup>
+						<p:inputText size="50" id="nomeFantasia" value="#{empresaMB.empresa.nomeFantasia}" required="true"/>
+						
+						<p:message for="nomeFantasia" />
+					</h:panelGroup>
+					
+					<p:outputLabel value="Tipo Empresa:" for="tipoEmpresa"/>
+					<h:panelGroup>
+						<p:selectOneMenu id="tipoEmpresa" value="#{empresaMB.empresa.tipoEmpresa}" required="true">
+							<f:selectItem itemLabel="Selecione..." />
+							<f:selectItems value="#{empresaMB.selectTiposEmpresa}" 
+								var="tipoEmpresa" itemLabel="#{tipoEmpresa.descricao}" itemValue="#{tipoEmpresa}"/>
+						</p:selectOneMenu>
+						
+						<p:message for="tipoEmpresa" />
+					</h:panelGroup>
+					
+					<p:outputLabel value="CNPJ:" for="cnpj"/>
+					<h:panelGroup>
+						<p:inputText mask="99.999.999/9999-99" size="50" id="cnpj" value="#{empresaMB.empresa.cnpj}" required="true" >
+							<f:validateLength minimum="18" maximum="18"/>
+						</p:inputText>
+						
+						<p:message for="cnpj" />					
+					</h:panelGroup>
+					
+					<p:outputLabel value="Data Fundação:" for="dataFundacao"/>
+					<h:panelGroup>
+						<p:inputText size="50" id="dataFundacao" value="#{empresaMB.empresa.dataFundacao}" required="true">
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</p:inputText>
+						
+						<p:message for="dataFundacao" />					
+					</h:panelGroup>
+					
+					<p:outputLabel value="Faturamento:" for="faturamento"/>
+					<h:panelGroup>
+						<p:inputText size="50" id="faturamento" value="#{empresaMB.empresa.faturamento}" required="true">
+							<!--<f:convertNumber minFractionDigits="2" currencyCode="BRL" />  -->
+							<f:convertNumber pattern="#,##0.00" />
+							<f:validateDoubleRange minimum="0"/>
+						</p:inputText>
+						
+						<p:message for="faturamento" />
+					</h:panelGroup>
+					
+					<p:outputLabel />
+					<p:commandButton value="Salvar" action="#{empresaMB.adicionar}" update="form"/>
+					
+					<p:outputLabel />
+					<p:commandButton value="Ajuda?" action="#{empresaMB.ajuda}"/>
+					
+				</h:panelGrid>
+				
+				<p:dataTable value="#{[0,0,0,0]}">
+					<p:column headerText="Razão Social">						
+						<h:outputText value="Algaworks Softwares, Treinamentos"/>
+					</p:column>
+					
+					<p:column headerText="Nome Fantasia">
+						<h:outputText value="Algaworks Softwares"/>
+					</p:column>
+					
+					<p:column headerText="Tipo Empresa">
+						<h:outputText value="LTDA"/>
+					</p:column>
+				</p:dataTable>
+				
+			</h:form>
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

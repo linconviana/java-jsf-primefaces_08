@@ -1,0 +1,27 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemalocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+       
+    <!-- URL Friendly -->                
+	<url-mapping id="home">
+		<pattern value="/home" />
+		<view-id value="Home.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="ramoAtividade">
+		<pattern value="/ramoAtividade" />
+		<view-id value="RamoAtividade.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="funcionario">
+		<pattern value="/funcionario" />
+		<view-id value="Funcionario.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="ajuda">
+		<pattern value="/ajuda" />
+		<view-id value="Ajuda.xhtml" />
+	</url-mapping>
+	
+</pretty-config>

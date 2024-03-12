@@ -1,0 +1,75 @@
+@charset "utf-8";
+
+body {
+	font-size: 12px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	font-size: 24px;
+	font-weight: 450;
+	color: #3b4d64 !important;
+}
+
+.btn-navbar {
+	margin-left: 5%;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #000;
+    background: #fff;
+    padding: 7px;
+    font-weight: 600;
+    color: #94c9c9;
+}
+
+.btn {
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn-primary {
+	color: #fffdfd !important;
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+}
+
+.btn-danger {
+	color: #fff !important;
+    background-color: #c82333 !important;
+    border-color: #bd2130 !important;
+}
+
+.btn-warning {
+	color: #212529 !important;
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.btn-success {
+	color: #fff !important;
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+}
+
+.btn-action-table{	
+	display: flex !important; 
+	justify-content: space-around !important; 
+}
+
+#button-jsf:hover {
+	box-shadow: 1px -1px 2px #85b2cb !important;
+	background: #85b2cb !important;
+}
+
+sidebar div a.side-bar-link {
+	color: #000;
+	text-decoration: none;
+}
+
+sidebar div a.side-bar-link:hover {
+	color: #fff !important;
+	transition-duration: 0.5s;
+}

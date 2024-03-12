@@ -1,0 +1,217 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="title">Java JSF com Primefaces - Funcionário</ui:define>
+	
+	<ui:define name="body">
+
+		<h2>Cadastro de Funcionario</h2>
+		
+		<h:form id="form">
+			
+			<!-- area para visualizar as menssages -->
+			<p:messages id="messagesTabela" showDetail="true" closable="true">
+		        <p:autoUpdate disabled="true"/>
+		    </p:messages>
+			  
+			<!-- Menu toolbar -->
+			<p:toolbar id="toolbar">
+	            <p:toolbarGroup>
+	            	<p:inputText id="inputTermo" placeholder="Digite o termo para pesquisar..." size="30" value="#{funcionarioMB.termoPesquisa}"/>
+	                <p:commandButton value="Pesquisar" icon="fa fa-search" styleClass="mr-2" 
+	                	actionListener="#{funcionarioMB.pesquisar}"                	
+	                	update="dataTable" 
+	                	process="@this inputTermo messagesTabela"
+	                />
+	                		
+	                <i class="pi pi-bars px-2"/>
+	                <p:commandButton id="btn-criar-novo" style="color: #007bff; border-color: #007bff;" type="button" value="Nova" icon="fa fa-plus" styleClass="mr-2"
+	                	onclick="PF('dialogWidgetVar').show()"
+	                	process="@this"
+	                >
+	                	<p:resetInput target="dialog" />
+	                	<p:ajax event="click" listener="#{funcionarioMB.changeTitleButton('SAVE')}"/> 
+	                </p:commandButton>
+                
+	            </p:toolbarGroup>
+			</p:toolbar>
+			
+			<p:spacer height="20"/>
+			
+			<!-- Datatable -->
+			<p:dataTable id="dataTable" value="#{funcionarioMB.listaFuncionarios}" var="func" 
+				emptyMessage="Nenhuma registro encontrado!"
+				paginator="true" rows="15" paginatorPosition="bottom"		
+			>
+				
+				<p:column headerText="Nome:" sortBy="#{func.nome}">
+					<h:outputText value="#{func.nome}" />
+				</p:column>
+				
+				<p:column headerText="E-mail:" sortBy="#{func.email}">
+					<h:outputText value="#{func.email}" />
+				</p:column>
+				
+				<p:column headerText="Senha:" sortBy="#{func.senha}">
+					<h:outputText value="#{func.senha}" />
+				</p:column>
+				
+				<p:column headerText="CPF:" sortBy="#{func.cpf}">
+					<h:outputText value="#{func.cpf}" />
+				</p:column>
+	
+				<p:column headerText="Data de Nascimento" sortBy="#{func.dataNascimento}">
+					<h:outputText value="#{func.dataNascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Celular" sortBy="#{func.celular}">
+					<h:outputText value="#{func.celular}" />
+				</p:column>
+				
+				<p:column headerText="Salario" sortBy="#{func.salario}">
+					<h:outputText value="#{func.salario}">
+						<f:convertNumber type="currency" currencySymbol=""/>
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Função" sortBy="#{func.tipoFuncaoFuncionario}">
+					<h:outputText value="#{func.tipoFuncaoFuncionario.descricao}" />
+				</p:column>
+				
+				<p:column headerText="Empresa" sortBy="#{func.empresa.nomeFantasia}">
+					<h:outputText value="#{func.empresa.nomeFantasia}" />
+				</p:column>
+				
+				<p:column headerText="Ações" width="100">
+					<div class="btn-action-table">
+						<p:commandButton class="btn-warning" title="Editar" icon="ui-icon-pencil"
+							oncomplete="PF('dialogWidgetVar').show()"
+							update="form:dialog" process="@this" 
+							action="#{funcionarioMB.changeTitleButton('UPDATE')}"
+						>
+							<f:setPropertyActionListener value="#{func}" target="#{funcionarioMB.funcionario}" />
+						</p:commandButton>
+						
+						<p:commandButton class="btn-danger" title="Excluir" action="#{funcionarioMB.excluir}" icon="ui-icon-trash" 
+							update="dataTable" process="@this" 
+						>
+							<p:confirm icon="ui-icon-alert" header="Confirmação" message="Tem certeza que deseja excluir este registro?"/>
+							<f:setPropertyActionListener value="#{func}" target="#{funcionarioMB.funcionario}" />
+						</p:commandButton>
+					</div>
+				</p:column>	
+				
+			</p:dataTable>
+
+			<p:dialog id="dialog" header="#{funcionarioMB.tipoCadastro eq 'SAVE' ? 'Cadastrar' : 'Atualizar'}" 
+				widgetVar="dialogWidgetVar" resizable="false" modal="true" closeOnEscape="true" showEffect="clip" hideEffect="clip"
+   			>
+			
+				<!-- area para visualizar as menssages -->
+				<p:messages id="messagesModal"  closable="true" >
+			        <p:autoUpdate disabled="true"/>
+			    </p:messages>
+				
+				<h:panelGrid columns="2" id="painelGrid" rendered="#{funcionarioMB.funcionario ne null}">
+					
+					<p:outputLabel value="Nome:" for="nome"/>
+					<p:inputText size="50" id="nome" value="#{funcionarioMB.funcionario.nome}" />
+					
+					<p:outputLabel value="E-mail:" for="email"/>
+					<p:inputText size="50" id="email" value="#{funcionarioMB.funcionario.email}" />
+					
+					<p:outputLabel value="Senha:" for="senha"/>
+					<p:password feedback="true" redisplay="true" size="50" id="senha" value="#{funcionarioMB.funcionario.senha}" />
+					
+					<p:outputLabel value="CPF:" for="cpf"/>
+					<p:inputMask mask="999.999.999-99" size="50" id="cpf" value="#{funcionarioMB.funcionario.cpf}" />
+					
+					<p:outputLabel value="Data Nascimento:" for="data"/>
+					<p:inputMask mask="99/99/9999" size="50" id="data" value="#{funcionarioMB.funcionario.dataNascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</p:inputMask>
+					
+					<p:outputLabel value="Celular:" for="celular"/>
+					<p:inputMask mask="(99) 99999-9999" size="50" id="celular" value="#{funcionarioMB.funcionario.celular}" />
+					
+					<p:outputLabel value="Salario:" for="salario"/>
+					<p:inputText size="50" id="salario" value="#{funcionarioMB.funcionario.salario}">
+						<f:convertNumber pattern="#,##0.00" />
+						<f:validateDoubleRange minimum="0"/>
+					</p:inputText>
+					
+					<p:outputLabel value="Cep:" for="cep"/>
+					<p:inputMask mask="99999-999" size="50" id="cep" value="#{funcionarioMB.funcionario.cep}" 
+						onblur="buscarCep();" />				
+					
+					<p:outputLabel value="Rua:" for="logradouro"/>
+					<p:inputText size="50" id="logradouro" value="#{funcionarioMB.funcionario.logradouro}" />
+					
+					<p:outputLabel value="Numero:" for="numero"/>
+					<p:inputText size="50" id="numero" value="#{funcionarioMB.funcionario.numero}" />
+					
+					<p:outputLabel value="Bairro:" for="bairro"/>
+					<p:inputText size="50" id="bairro" value="#{funcionarioMB.funcionario.bairro}" />
+					
+					<p:outputLabel value="Cidade:" for="cidade"/>
+					<p:inputText size="50" id="cidade" value="#{funcionarioMB.funcionario.cidade}" />
+					
+					<p:outputLabel value="Estado:" for="uf"/>
+					<p:inputText size="50" id="uf" value="#{funcionarioMB.funcionario.uf}" />
+					
+					<p:outputLabel value="Empresas:" for="empresa"/>
+					<p:selectOneMenu style="width:365px;" id="empresa" value="#{funcionarioMB.funcionario.empresa}"
+						converter="converterEmpresa" required="true"  filter="true">
+						<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+						<f:selectItems value="#{funcionarioMB.listaEmpresa}" 
+							var="empresa" itemValue="#{empresa}" itemLabel="#{empresa.nomeFantasia}"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Tipo Função:" for="funcao"/>
+					<p:selectOneMenu style="width:365px;" id="funcao" value="#{funcionarioMB.funcionario.tipoFuncaoFuncionario}"
+						required="true"  filter="true">
+						<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+						<f:selectItems value="#{funcionarioMB.tipoFuncao}" 
+							var="funcao" itemValue="#{funcao}" itemLabel="#{funcao.descricao}"/>
+					</p:selectOneMenu>
+
+					<p:outputLabel />
+					<p:commandButton class="btn btn-primary" id="btn-salvar"
+						value="Salvar" action="#{funcionarioMB.salvar}"
+						update="painelGrid messagesModal"
+						oncomplete="if(!args.validationFailed) PF('dialogWidgetVar').hide()"
+						process="@this painelGrid"
+						rendered="#{funcionarioMB.tipoCadastro eq 'SAVE'}" />
+
+					<p:commandButton class="btn btn-warning" id="btn-atualizar"
+						value="Atualizar" action="#{funcionarioMB.salvar}"
+						update="painelGrid messagesModal"
+						oncomplete="if(!args.validationFailed) PF('dialogWidgetVar').hide()"
+						process="@this painelGrid"
+						rendered="#{funcionarioMB.tipoCadastro eq 'UPDATE'}">
+						<p:confirm header="Confirmação"
+							message="Tem certeza que deseja atualizar este registro?" />
+					</p:commandButton>
+					
+				</h:panelGrid>
+				
+				
+				<!-- Resetar dados do formulario apos fechar -->
+				<p:ajax event="close" update="dialog" resetValues="true"/>
+				
+				<!-- Definir comando default para apertar enter no formulario e somente o formulario responder a este comando -->
+				<p:defaultCommand target="btn-salvar" scope="dialog"/>
+				<p:defaultCommand target="btn-atualizar" scope="dialog"/>
+
+			 </p:dialog>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>
