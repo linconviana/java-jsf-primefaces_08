@@ -19,7 +19,6 @@ import br.com.linconviana.entities.Empresa;
 import br.com.linconviana.entities.RamoAtividade;
 import br.com.linconviana.entities.TipoEmpresa;
 import br.com.linconviana.report.CreateReportPDF;
-import br.com.linconviana.report.ICreateReport;
 import br.com.linconviana.report.ModelReport;
 import br.com.linconviana.service.EmpresaService;
 import br.com.linconviana.service.RamoAtividadeService;

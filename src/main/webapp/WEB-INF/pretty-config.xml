@@ -24,4 +24,8 @@
 		<view-id value="Ajuda.xhtml" />
 	</url-mapping>
 	
+	<url-mapping id="alunos">
+		<pattern value="/alunos" />
+		<view-id value="alunos.xhtml" />
+	</url-mapping>
 </pretty-config>

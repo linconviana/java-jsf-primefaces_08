@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xml:lang="en"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Lista de Alunos</title>
+</h:head>
+<f:view>
+
+		<h2>Cadastro de Empresas</h2>
+
+		<h:form id="form">
+
+			<!-- area para visualizar as menssages -->
+			<p:messages id="messages2" showDetail="true" closable="true">
+		        <p:autoUpdate/>
+		    </p:messages>
+			<!-- area para visualizar as menssages -->
+			<p:growl id="messages" showDetail="true" autoUpdate="true" closable="true" life="3000">
+                <p:autoUpdate/>
+            </p:growl>
+
+			<!-- <p:growl id="growl" showDetail="true" sticky="true" life="3000">
+				<p:autoUpdate />
+			</p:growl>  -->
+
+			<!-- Menu toolbar -->
+			<p:toolbar id="toolbar">
+				<p:toolbarGroup>
+					<p:inputText id="inputTermo"
+						placeholder="Digite o termo para pesquisar..." size="30"
+						value="#{empresaMB.termoPesquisa}" />
+					<p:commandButton value="Pesquisar" icon="fa fa-search"
+						styleClass="mr-2" actionListener="#{empresaMB.pesquisarEmpresa}"
+						update="messages" process="@this inputTermo messages" />
+
+					<i class="pi pi-bars px-2" />
+					<p:commandButton style="color: #007bff; border-color: #007bff;"
+						type="button" value="Nova" icon="fa fa-plus" styleClass="mr-2"
+						onclick="PF('empresaDialogWidgetVar').show()" process="@this">
+						<p:resetInput target="empresaDialog" />
+						<p:ajax event="click"
+							listener="#{empresaMB.changeTitleButton('SAVE')}" />
+						<p:ajax event="dialogReturn" listener="#{empresaMB.handleClose}" />
+					</p:commandButton>
+
+
+					<i class="pi pi-bars px-2" />
+
+					<!-- <p:commandButton style="color: #28a745; border-color: #28a745;"
+						type="button" title="Exportar Excel" icon="fa fa-file-excel"
+						styleClass="mr-2" update="messages">
+						<p:ajax event="click" listener="#{alunosMB.mensagem}" />
+					</p:commandButton> -->
+
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:spacer height="20" />
+
+			<p:dialog id="empresaDialog"
+				header="#{empresaMB.tipoCadastro eq 'SAVE' ? 'Nova Empresa' : 'Atualizar Empresa'}"
+				widgetVar="empresaDialogWidgetVar" resizable="false" modal="true"
+				closeOnEscape="true" showEffect="clip" hideEffect="clip">
+
+				<!-- area para visualizar as menssages -->
+				<p:messages id="messagesEmpresa" closable="true">
+					<p:autoUpdate disabled="true" />
+				</p:messages>
+
+				<h:panelGrid columns="2" id="empresaPainelGrid"
+					rendered="#{empresaMB.empresa ne null}">
+					<p:outputLabel value="Razão Social:" for="razaoSocial" />
+					<p:inputText size="50" id="razaoSocial"
+						value="#{empresaMB.empresa.razaoSocial}" />
+
+					<p:outputLabel value="Nome Fantasia:" for="nomeFantasia" />
+					<p:inputText size="50" id="nomeFantasia"
+						value="#{empresaMB.empresa.nomeFantasia}" />
+
+					<p:outputLabel value="Tipo Empresa:" for="tipoEmpresa" />
+					<p:selectOneMenu style="width:365px;" id="tipoEmpresa"
+						value="#{empresaMB.empresa.tipoEmpresa}" filter="true">
+						<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
+						<f:selectItems value="#{empresaMB.selectTiposEmpresa}"
+							var="tipoEmpresa" itemLabel="#{tipoEmpresa.descricao}"
+							itemValue="#{tipoEmpresa}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Ramo Atividade:" for="ramoAtividade" />
+					<p:selectOneMenu style="width:365px;" id="ramoAtividade"
+						value="#{empresaMB.empresa.ramoAtividade}" required="true"
+						converter="converteRamoAtividade" filter="true">
+						<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
+						<f:selectItems value="#{empresaMB.listaRamoAtividades}"
+							var="ramoAtividade" itemValue="#{ramoAtividade}"
+							itemLabel="#{ramoAtividade.descricao}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="CNPJ:" for="cnpj" />
+					<p:inputMask mask="99.999.999/9999-99" size="50" id="cnpj"
+						value="#{empresaMB.empresa.cnpj}">
+						<f:validateLength minimum="18" maximum="18" />
+					</p:inputMask>
+
+					<p:outputLabel value="Data Fundação:" for="dataFundacao" />
+					<p:inputMask mask="99/99/9999" size="50" id="dataFundacao"
+						value="#{empresaMB.empresa.dataFundacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputMask>
+
+					<p:outputLabel value="Faturamento:" for="faturamento" />
+					<p:inputText size="50" id="faturamento"
+						value="#{empresaMB.empresa.faturamento}">
+						<f:convertNumber pattern="#,##0.00" />
+						<f:validateDoubleRange minimum="0" />
+					</p:inputText>
+
+					<p:outputLabel />
+					<p:commandButton class="btn btn-primary" id="btn-salvar"
+						value="Salvar" action="#{empresaMB.salvar}"
+						update="empresaPainelGrid messagesEmpresa"
+						oncomplete="if(!args.validationFailed) PF('empresaDialogWidgetVar').hide()"
+						process="@this empresaPainelGrid"
+						rendered="#{empresaMB.tipoCadastro eq 'SAVE'}" />
+
+					<p:commandButton class="btn btn-warning" id="btn-atualizar"
+						value="Atualizar" action="#{empresaMB.salvar}"
+						update="empresaPainelGrid messagesEmpresa"
+						oncomplete="if(!args.validationFailed) PF('empresaDialogWidgetVar').hide()"
+						process="@this empresaPainelGrid"
+						rendered="#{empresaMB.tipoCadastro eq 'UPDATE'}">
+						<p:confirm header="Confirmação"
+							message="Tem certeza que deseja cadastrar este registro?" />
+					</p:commandButton>
+
+				</h:panelGrid>
+
+				<!-- Resetar dados do formulario apos fechar -->
+				<p:ajax event="close" update="empresaDialog" resetValues="true" />
+
+				<!-- Definir comando default para apertar enter no formulario e somente o formulario responder a este comando -->
+				<p:defaultCommand target="btn-salvar" scope="empresaDialog" />
+				<p:defaultCommand target="btn-atualizar" scope="empresaDialog" />
+			</p:dialog>
+
+		</h:form>
+
+</f:view>
+</html>

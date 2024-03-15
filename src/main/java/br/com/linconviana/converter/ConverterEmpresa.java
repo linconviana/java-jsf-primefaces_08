@@ -9,7 +9,6 @@ import javax.faces.convert.FacesConverter;
 
 import br.com.linconviana.entities.Empresa;
 import br.com.linconviana.repositories.EmpresaRepository;
-import br.com.linconviana.repositories.RamoAtividadeRepository;
 
 @FacesConverter(value = "converterEmpresa")
 public class ConverterEmpresa implements Converter {

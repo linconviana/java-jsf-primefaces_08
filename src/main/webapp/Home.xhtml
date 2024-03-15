@@ -66,6 +66,13 @@
 	             	                
 	                <i class="pi pi-bars px-2"/>  
 					      
+	                <p:commandButton style="color: red; border-color: red;" type="button" 
+	                	title="Exportar PDF" icon="fa fa-file-pdf" styleClass="mr-2" ajax="false">
+	                	<p:dataExporter type="pdf" target="empresaDataTable" fileName="empresa" />
+	                </p:commandButton>
+	                
+	                <i class="pi pi-bars px-2"/>  
+					      
 	                <p:commandButton style="color: #28a745; border-color: #28a745;" type="button" 
 	                	title="Exportar Excel" icon="fa fa-file-excel" styleClass="mr-2">
 	                	<p:ajax event="click" listener="#{empresaMB.relatorios}"/> 
@@ -109,7 +116,7 @@
 					<h:outputText value="#{empresa.cnpj}" />
 				</p:column>
 				
-				<p:column headerText="Ações" width="100">
+				<p:column headerText="Ações" width="100" exportable="false">
 					<div class="btn-action-table">
 						<p:commandButton class="btn-warning" title="Editar" icon="ui-icon-pencil"
 							oncomplete="PF('empresaDialogWidgetVar').show()"

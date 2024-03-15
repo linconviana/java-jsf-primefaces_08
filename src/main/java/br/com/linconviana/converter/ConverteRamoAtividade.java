@@ -1,6 +1,5 @@
 package br.com.linconviana.converter;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +7,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.inject.Inject;
 
 import br.com.linconviana.entities.RamoAtividade;
 import br.com.linconviana.repositories.RamoAtividadeRepository;
