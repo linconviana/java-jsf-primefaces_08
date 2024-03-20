@@ -12,6 +12,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.Unmarshaller;
+
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
@@ -33,6 +37,8 @@ public class TestePersistencia {
 		/// :: https://www.mballem.com/post/xml-trabalhando-com-jaxb/#:~:text=O%20processo%20usado%20para%20transformar,o%20Marshaller%20ou%20um%20Unmarshaller.
 		//https://pt.stackoverflow.com/questions/227503/como-transformar-um-objeto-em-xml-no-formato-especificado
 		//https://www.devmedia.com.br/serializando-objetos-java-em-xml-com-xstream/3647
+		//
+		testarHttpBancoCentral();
 		testarHttpPost();
 		
 		String meuCep = "12705-260";
@@ -144,12 +150,14 @@ public class TestePersistencia {
 				System.out.println(xmlString);
 				
 				/// :: Salvar arquivo XML
-				Writer writer = new FileWriter("C:\\Users\\Lincon\\Desktop\\xmlcep.xml");
+				Writer writer = new FileWriter("src\\main\\resources\\xml\\xmlcep2.xml");
+				//Writer writer = new FileWriter("C:\\Users\\Lincon\\Desktop\\xmlcep.xml");
 				marshaller.marshal(xmlcep, writer);
 				writer.close();
 				
 				/// :: Lendo o arquivo xml salvo
-				File file = new File("C:\\Users\\Lincon\\Desktop\\xmlcep.xml");
+				File file = new File("src\\main\\resources\\xml\\xmlcep2.xml");
+				//File file = new File("C:\\Users\\Lincon\\Desktop\\xmlcep.xml");
 				Xmlcep xmlcepRead = (Xmlcep) unmarshaller.unmarshal(file);
 				System.out.println(xmlcepRead.getLogradouro());
 				
@@ -167,10 +175,14 @@ public class TestePersistencia {
 		/// :: Api publica de teste -> https://jsonplaceholder.typicode.com/
 		WebServiceMethods viacep = new WebServiceMethods();
 		
+		/// :: Api cotação dolar
+		//String URL_GET = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?@dataInicial='01-01-2024'&@dataFinalCotacao='03-15-2024'&$top=100&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao";
+		
 		String URL_GET = "https://jsonplaceholder.typicode.com/todos/2";
 		//String URL_GET = "https://jsonplaceholder.typicode.com/todos";
 		//String URL_GET = "https://jsonplaceholder.typicode.com/comments?postId=1";
 		HttpResponse<String> responseGet = viacep.httpGet(URL_GET);
+
 		System.out.println(responseGet.body());
 		System.out.println(responseGet.statusCode());
 		
@@ -204,4 +216,43 @@ public class TestePersistencia {
 		System.out.println(responsePut.body());
 
 	}
+	
+	private static void testarHttpBancoCentral() {
+			
+			/// :: Api publica de teste -> https://jsonplaceholder.typicode.com/
+			WebServiceMethods viacep = new WebServiceMethods();
+			
+			/// :: Api cotação dolar
+			String URL_GET = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?@dataInicial='01-01-2024'&@dataFinalCotacao='03-15-2024'&$top=100&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao";
+			
+			HttpResponse<String> response = viacep.httpGet(URL_GET);
+			
+			/// :: https://www.geeksforgeeks.org/how-to-resolve-expected-begin_object-but-was-begin_array-in-android/
+			/// :: Erro -> Expected BEGIN_OBJECT but was BEGIN_ARRAY
+			// Fazendo o parsing da string para um objeto JSON
+			JSONObject jsonObject = new JSONObject(response.body());
+			
+			// Acessando o array "value"
+			JSONArray valueArray = jsonObject.getJSONArray("value");
+			
+			// Acessando os valores dentro do array
+			for (int i = 0; i < valueArray.length(); i++) {
+			    
+				JSONObject item = valueArray.getJSONObject(i);
+			    double cotacaoCompra = item.getDouble("cotacaoCompra");
+			    double cotacaoVenda = item.getDouble("cotacaoVenda");
+			    String dataHoraCotacao = item.getString("dataHoraCotacao");
+
+			    // Faça o que você precisa com os valores (por exemplo, imprimir)
+			    System.out.println("Cotação de Compra: " + cotacaoCompra);
+			    System.out.println("Cotação de Venda: " + cotacaoVenda);
+			    System.out.println("Data e Hora da Cotação: " + dataHoraCotacao);
+			}
+	}
+}
+
+class CotacaoDolar {
+    double cotacaoCompra;
+    double cotacaoVenda;
+    String dataHoraCotacao;
 }

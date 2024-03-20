@@ -10,16 +10,52 @@
 	
 	<ui:define name="body">
 	
-	<!-- http://localhost:8080/empresa/Home.xhtml -->
+	<!-- Ao Carregar pagina pega o valor do id na URL e chama o metodo iniciar -->
+	<f:metadata>
+		<f:viewParam name="id" value="#{ajudaMB.empresa.id}" />
+		<f:viewAction action="#{ajudaMB.iniciar}" />
+	</f:metadata>
 	
+
+	<!-- http://localhost:8080/empresa/ajuda -->
+	<!-- http://localhost:8080/empresa/ajuda?id=4 -->
+	
+	<!-- https://api.jqueryui.com/resources/icons-list.html -> lista de icones do primeface -->
 		<h2>Ajuda</h2>
 		<div id="conteudo">
 			<h:form>
 				
 				<p>Esta é a pagina de ajuda</p>
+				
+				<br />
+				<!-- So aparece se existir id na url -->
+				<h:panelGrid columns="2" rendered="#{ajudaMB.idUrlParams ne null and ajudaMB.empresa.razaoSocial ne null}">
+				
+					<h:outputText value=""/>
+					<h:outputText value="Só apareceu estes dados porque tinha um id vindo da pagina empresa home: "
+					style="font-size: 15px; font-weight: bold;"/>
+				
+					<h:outputText value="RazaoSocial: " />
+					<h:outputText value="#{ajudaMB.empresa.razaoSocial}"/>
+
+					<h:outputText value="Nome Fantasia: "/>
+					<h:outputText value="#{ajudaMB.empresa.nomeFantasia}"/>
+					
+					<h:outputText value="CNPJ: "/>
+					<h:outputText value="#{ajudaMB.empresa.cnpj}"/>
+					
+				</h:panelGrid>
+				
+				<br />
+				<h:commandButton value="Salvar"  action="#{ajudaMB.salvar}"/>
+				
+				<br />
 				<!-- <h:commandLink value="Voltar Home" action="Home"/> -->
 				<h:commandLink value="Voltar Home" action="Home?faces-redirect=true"/>
+				
 			</h:form>
+			
+			
 		</div>
 		
 	</ui:define>

@@ -12,5 +12,5 @@
 		
 		<message-bundle>erp.Messages</message-bundle>
 	</application>
-
+	
 </faces-config>

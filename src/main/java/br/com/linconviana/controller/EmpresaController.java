@@ -57,12 +57,24 @@ public class EmpresaController implements Serializable{
 	private ConverteRamoAtividade ramoAtividadeConverter;
 	
 	private String tipoCadastro = "SAVE";
+	
+	private Integer totalRegistros;
 		
+	public Integer getTotalRegistros() {
+		return totalRegistros;
+	}
+
+	public void setTotalRegistros(Integer totalRegistros) {
+		this.totalRegistros = totalRegistros;
+	}
+
 	@PostConstruct
 	public void listarTodasEmpresas() {
 		listaEmpresas = service.findAll();
 		listaRamoAtividades = ramoAtividadeservice.findAll();
 		tipoCadastro = "SAVE";
+		
+		totalRegistros = listaEmpresas.size();
 	}
   
 	public void pesquisarEmpresa() {
@@ -187,14 +199,15 @@ public class EmpresaController implements Serializable{
 			modelReport = new ModelReport();
 			
 			String reportName = "empresas";
-			String folder = "empresas/";			
+			String folder = "empresas\\";
+			//String folder = "empresas/";
 			
 			modelReport.setFolder(folder);
 			modelReport.setNomeRelatorio(reportName);
 			modelReport.setLista(listaEmpresas);
 			modelReport.setParametros(parametros);
 			
-			createReport.gerarRelatorioEditadoJxml(modelReport);
+			createReport.gerarRelatorioEditado(modelReport);
 			
 		} catch (JRException e) {
 			e.printStackTrace();

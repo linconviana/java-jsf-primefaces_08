@@ -1,0 +1,30 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h1>Modal Form Template</h1>
+	<form id="form1">
+		<h:panelGrid columns="2" id="painelGrid">
+			<p:outputLabel value="Razão Social:" for="razaoSocial" />
+			<p:inputText size="50" id="razaoSocial" value="#{testeMB.razao}"
+				placeholder="Digite a Razão Social..." />
+
+			<p:outputLabel value="Nome Fantasia:" for="nomeFantasia" />
+			<p:inputText size="50" id="nomeFantasia" value="#{testeMB.fantasia}"
+				placeholder="Digite o Nome Fantasia..." />
+				
+			<p:outputLabel value="CNPJ:" for="cnpj" />
+			<p:inputText size="50" id="cnpj" value="#{testeMB.cnpj}"
+				placeholder="Digite o CNPJ..." />
+
+			<p:outputLabel />
+			<p:commandButton class="btn btn-primary" id="btn-salvar"
+				value="Salvar" update="painelGrid" process="@this" action="#{testeMB.mensagem}"/>
+
+		</h:panelGrid>
+	</form>
+
+</ui:fragment>

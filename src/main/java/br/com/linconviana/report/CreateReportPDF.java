@@ -9,6 +9,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.ocpsoft.rewrite.servlet.config.URL;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -28,7 +30,9 @@ public class CreateReportPDF extends ICreateReport {
 	//https://www.youtube.com/watch?v=CQdbCXlskWw
 	//https://www.youtube.com/watch?v=S9p-ytIHDII
 	//https://www.youtube.com/watch?v=6eGnYTk9J6c
-	private static final String JASPER_DIRETORIO = "src/main/resources/reports/";
+	
+	//private static final String JASPER_DIRETORIO = "src/main/resources/reports/";
+	private static final String JASPER_DIRETORIO = "src\\main\\resources\\reports\\";
 
 	private InputStream stream;
 	private ByteArrayOutputStream byteArray;
@@ -44,11 +48,17 @@ public class CreateReportPDF extends ICreateReport {
 	@Override
 	public void gerarRelatorioCompilado(ModelReport model) throws JRException, IOException {
 			
-		String relativePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(
+		/*String relativePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(
 				JASPER_DIRETORIO.concat(model.getFolder()).concat(model.getNomeRelatorio().concat(".jasper"))
-		);
+		);*/
 		
+		//String relativePath = JASPER_DIRETORIO.concat(model.getFolder()).concat(model.getNomeRelatorio().concat(".jasper"));
 
+		//String relativePath = "D:\\Curso Java JSF e Primefaces\\workspace\\empresa\\src\\main\\resources\\reports\\empresas\\teste.jasper";
+				
+		java.net.URL resource = getClass().getResource("/reports/empresas/teste.jasper");
+		final String relativePath = resource.getFile();
+		
 		File file = new File(relativePath);
 		
 		JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(model.getLista(), false);
@@ -67,10 +77,13 @@ public class CreateReportPDF extends ICreateReport {
 		FacesContext.getCurrentInstance().responseComplete();	
 	}
 	
-	public void gerarRelatorioCompiladoo2(ModelReport model) throws JRException, IOException {
+	public void gerarRelatorioCompilado2(ModelReport model) throws JRException, IOException {
 		
 		String pathReport = JASPER_DIRETORIO.concat(model.getFolder()).concat(model.getNomeRelatorio().concat(".jasper"));	
 
+		//java.net.URL resource = getClass().getResource("/reports/empresas/teste.jasper");
+		//final String pathReport = resource.getFile();
+		
 		InputStream stream = CreateReportPDF.class.getResourceAsStream(pathReport);
 		
 		//stream = this.getClass().getResourceAsStream(pathReport);
@@ -97,9 +110,12 @@ public class CreateReportPDF extends ICreateReport {
 	
 	public void gerarRelatorioEditado(ModelReport model) throws JRException, IOException {
 		///https://www.youtube.com/watch?v=yJoXaGeDXdM - netbeans
-		String pathReport = JASPER_DIRETORIO.concat(model.getFolder()).concat(model.getNomeRelatorio().concat(".jasper"));	
+		//String pathReport = JASPER_DIRETORIO.concat(model.getFolder()).concat(model.getNomeRelatorio().concat(".jasper"));	
 
-		InputStream stream = CreateReportPDF.class.getResourceAsStream(pathReport);
+		//java.net.URL resource = getClass().getResource("/reports/empresas/teste.jasper");
+		//final String pathReport = resource.getFile();
+		
+		InputStream stream = CreateReportPDF.class.getResourceAsStream("src\\main\\resources\\reports\\empresas\\teste.jasper");
 			
 		JasperReport report = JasperCompileManager.compileReport(stream);		
 		
@@ -113,9 +129,16 @@ public class CreateReportPDF extends ICreateReport {
 	public void gerarRelatorioEditadoJxml(ModelReport model) throws JRException, IOException {
 		///https://www.youtube.com/watch?v=dET2WkH8dBo
 		//https://www.youtube.com/watch?v=hda_c6maMz4
-		String pathReport = JASPER_DIRETORIO.concat(model.getFolder()).concat(model.getNomeRelatorio().concat(".jrxml"));	
-			
-		JasperReport report = JasperCompileManager.compileReport(pathReport);
+		
+		//String pathReport = JASPER_DIRETORIO.concat(model.getFolder()).concat(model.getNomeRelatorio().concat(".jrxml"));	
+		String pathReport = "D:\\Curso Java JSF e Primefaces\\workspace\\empresa\\src\\main\\resources\\reports\\empresas\\teste.jasper";
+		
+		java.net.URL resource = getClass().getResource("/reports/empresas/teste.jasper");
+		final String JASPER_DIRETORIO = resource.getFile();
+		   
+		JasperReport report = JasperCompileManager.compileReport(JASPER_DIRETORIO);
+		//JasperReport report = JasperCompileManager.compileReport("classpath:"+pathReport);
+		//JasperReport report = JasperCompileManager.compileReport(new File("").getAbsolutePath() + pathReport);
 				
 		JasperPrint jasperPrint = JasperFillManager.fillReport(report, model.getParametros(), new JRBeanCollectionDataSource(model.getLista()));
 		

@@ -39,13 +39,13 @@
     </listener>
     
     <servlet>
-    	<servlet-name>Faces Servlet</servlet-name>
+    	<servlet-name>FacesServlet</servlet-name>
     	<servlet-class>javax.webapp.FacesServlet</servlet-class>
     	<load-on-startup>1</load-on-startup>
     </servlet>
     
     <servlet-mapping>
-    	<servlet-name>Faces Servlet</servlet-name>
+    	<servlet-name>FacesServlet</servlet-name>
     	<url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     

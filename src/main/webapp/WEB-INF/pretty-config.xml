@@ -24,8 +24,23 @@
 		<view-id value="Ajuda.xhtml" />
 	</url-mapping>
 	
+	<url-mapping id="ajuda">
+		<pattern value="/ajuda/#{id}" />
+		<view-id value="Ajuda.xhtml" />
+	</url-mapping>
+	
+	<!--<url-mapping id="ajuda">
+		<pattern value="/ajuda/#{id}/edicao" />
+		<view-id value="Ajuda.xhtml" />
+	</url-mapping>  -->
+	
 	<url-mapping id="alunos">
 		<pattern value="/alunos" />
 		<view-id value="alunos.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="teste">
+		<pattern value="/teste" />
+		<view-id value="testeTemplate/teste.xhtml" />
 	</url-mapping>
 </pretty-config>

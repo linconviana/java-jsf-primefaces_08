@@ -45,7 +45,7 @@
 			<!-- Datatable -->
 			<p:dataTable id="dataTable" value="#{ramoAtividadeMB.listaRamoAtividades}" var="atividade" 
 				emptyMessage="Nenhuma registro encontrado!"
-				paginator="true" rows="15" paginatorPosition="bottom"		
+				paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="10,20,50,100" rows="10"		
 			>
 				
 				<p:column headerText="Descrição" sortBy="#{atividade.descricao}">
